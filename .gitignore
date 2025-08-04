@@ -1,0 +1,32 @@
+# Node
+node_modules/
+.env
+dist/
+build/
+.vscode/
+
+# Logs
+logs
+*.log
+
+# OS-specific
+.DS_Store
+
+# npm
+package-lock.json
+yarn.lock
+
+# Vite / React
+client/dist
+client/.env
+client/node_modules
+
+# Express Backend
+server/node_modules
+server/.env
+
+# Mac system files
+.DS_Store
+
+# Optional: Ignore uploads or generated assets
+uploads/
