@@ -4,11 +4,25 @@ import { assets } from '../assets/assets';
 
 const Testimonial = () => {
     const testimonials = [
-        {name: "Emma Rodriguez", location: "Barcelona, Spain", image: assets.testimonial_image_1, testimonial: "I've rented cars from various companies, but the experience with CarRental was exceptional." },
-        {name: "Emma Rodriguez", location: "Barcelona, Spain", image: assets.testimonial_image_2, testimonial: "I've rented cars from various companies, but the experience with CarRental was exceptional." },
-        {name: "Emma Rodriguez", location: "Barcelona, Spain", image: assets.testimonial_image_1, testimonial: "I've rented cars from various companies, but the experience with CarRental was exceptional." }
-        
-    ];
+  {
+    name: "Shally Verma",
+    location: "Delhi, India",
+    image: assets.testimonial_image_1,
+    testimonial: "CarRental made my trip to Himachal so smooth. The car was clean and well-maintained."
+  },
+  {
+    name: "Priya Iyer",
+    location: "Chennai, India",
+    image: assets.testimonial_image_2,
+    testimonial: "I booked a car for a family wedding. The service was timely and professional. Highly recommend!"
+  },
+  {
+    name: "Zoya Khan",
+    location: "Mumbai, India",
+    image: assets.testimonial_image_1,
+    testimonial: "Affordable rates and excellent customer support. This is now my go-to car rental."
+  }
+];
   return (
     <div className="py-28 px-6 md:px-16 lg:px-24 xl:px-44">
             <Title title="What Our Customers Say" subTitle="Discover why discerning travelers choose us" />
