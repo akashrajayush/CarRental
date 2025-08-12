@@ -11,15 +11,18 @@ import Dashboard from './pages/owner/Dashboard'
 import AddCar from './pages/owner/AddCar'
 import ManageCars from './pages/owner/ManageCars'
 import ManageBookings from './pages/owner/ManageBookings'
+import Login from './components/Login'
 
 const App = () => {
   const [showLogin, setShowLogin] = React.useState(false)
   const isOwnerPath = useLocation().pathname.startsWith('/owner')
   return (
     <>
+      {showLogin && <Login setShowLogin={setShowLogin}/>}
       {!isOwnerPath && <Navbar setShowLogin={setShowLogin}/>}
 
       <Routes>
+
         <Route path='/' element={<Home/>}/>
         <Route path='/car-details/:id' element={<CarDetails/>}/>
         <Route path='/cars' element={<Cars/>}/>
