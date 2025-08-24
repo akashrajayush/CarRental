@@ -1,6 +1,7 @@
 import imagekit from "../configs/imageKit.js";
 import Car from "../models/Car.js";
 import User from "../models/User.js";
+import Booking from "../models/Booking.js";
 import fs from "fs";
 //API to change role to owner
 export const changeRoleToOwner=async(req,res)=>{
@@ -27,6 +28,8 @@ export const addCar=async(req,res)=>{
             fileName: imageFile.originalname,
             folder:'/cars'
         })
+        // Clean up the uploaded file
+        fs.unlinkSync(imageFile.path)
         // optimized through imagekit url transformation
         var optimizedImageURL = imagekit.url({
             path : response.filePath,
@@ -67,7 +70,7 @@ export const toggleCarAvailability=async(req,res)=>{
     try {
         const{_id}=req.user;
         const {carId}=req.body
-        const car=await Car.findById({carId})
+        const car=await Car.findById(carId)
 
         //checking is car belongs to the user
         if(car.owner.toString()!== _id.toString()){
@@ -90,7 +93,7 @@ export const deleteCar=async(req,res)=>{
     try {
         const{_id}=req.user;
         const {carId}=req.body
-        const car=await Car.findById({carId})
+        const car=await Car.findById(carId)
 
         //checking is car belongs to the user
         if(car.owner.toString()!== _id.toString()){
@@ -119,13 +122,13 @@ export const getDashboardData = async(req,res)=>{
         }
 
         const cars=await Car.find({owner:_id})
-        const bookings=await bookingRouter.find({owner:_id}).populate('car').sort({createdAt:-1});
+        const bookings=await Booking.find({owner:_id}).populate('car').sort({createdAt:-1});
 
-        const pendingBookings=await bookings.find({owner:_id,status:"pending"})
-        const completedBookings=await bookings.find({owner:_id,status:"confirmed"})
+        const pendingBookings = bookings.filter(booking => booking.status === "pending")
+        const completedBookings = bookings.filter(booking => booking.status === "confirmed")
 
         //calculate monthly revenue from bookings where status is confirmed
-        const monthlyRevenue = bookings.slice().filter(booking =>booking.status === 'confirmed').reduce((acc,booking)=>acc+booking.price,0)
+        const monthlyRevenue = bookings.filter(booking => booking.status === 'confirmed').reduce((acc,booking)=>acc+booking.price,0)
 
         const dashboardData={
             totalCars:cars.length,
@@ -135,6 +138,8 @@ export const getDashboardData = async(req,res)=>{
             recentBookings:bookings.slice(0,3),
             monthlyRevenue
         }
+
+        res.json({success:true, dashboardData})
 
     }catch(error){
         console.log(error.message);
@@ -156,6 +161,8 @@ export const updateUserImage = async(req,res)=>{
             fileName:imageFile.originalname,
             folder:'/users'
         })
+        // Clean up the uploaded file
+        fs.unlinkSync(imageFile.path)
         //optimization through imagekit URL transformation
         var optimizedImageURL=imagekit.url({
             path:response.filePath,
